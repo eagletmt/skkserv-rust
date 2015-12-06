@@ -63,5 +63,5 @@ fn write_with_encoding(stream: &mut Write, input: &str, encoding: &Encoding) -> 
 fn read_with_encoding(stream: &mut Read, encoding: &Encoding) -> std::io::Result<String> {
     let mut buf = [0; 1024];
     let r = try!(stream.read(&mut buf));
-    return Ok(encoding.decode(&buf[0 .. r-1], DecoderTrap::Strict).unwrap());
+    return Ok(encoding.decode(&buf[0 .. r], DecoderTrap::Strict).unwrap());
 }
