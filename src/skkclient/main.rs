@@ -1,14 +1,29 @@
 extern crate encoding;
+extern crate getopts;
 
 use std::env;
 use std::io::{Read, Write};
 use std::net::TcpStream;
+use getopts::Options;
 use encoding::{Encoding, EncoderTrap, DecoderTrap};
 use encoding::all::{ASCII, EUC_JP};
 
 fn main() {
-    let kana = env::args().nth(1).unwrap_or("a".to_string());
-    let mut stream = TcpStream::connect(("127.0.0.1", 1178)).unwrap();
+    let args: Vec<String> = env::args().collect();
+    let mut opts = Options::new();
+    opts.optopt("h", "host", "Host to connect", "ADDR");
+    opts.optopt("p", "port", "Port to connect", "PORT");
+    let matches = match opts.parse(&args[1..]) {
+        Ok(m) => { m }
+        Err(f) => { panic!(f.to_string()); }
+    };
+    let host = matches.opt_str("h").unwrap_or("127.0.0.1".to_string());
+    let port = matches.opt_str("p").unwrap_or("1178".to_string()).parse::<u16>().unwrap();
+    let default_kana = "a".to_string();
+    let kana = matches.free.first().unwrap_or(&default_kana);
+
+    println!("Connecting {}:{}", host, port);
+    let mut stream = TcpStream::connect((&*host, port)).unwrap();
     let encoding = EUC_JP;
 
     let version = get_version(&mut stream, encoding).unwrap();

@@ -5,7 +5,12 @@ authors = ["Kohei Suzuki <eagletmt@gmail.com>"]
 
 [dependencies]
 encoding = "0.2"
+getopts = "0.2"
 
 [[bin]]
 name = "skkclient"
 path = "src/skkclient/main.rs"
+
+[[bin]]
+name = "skkserv"
+path = "src/skkserv/main.rs"
