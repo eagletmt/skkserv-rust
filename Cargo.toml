@@ -2,3 +2,10 @@
 name = "skkserv-rust"
 version = "0.1.0"
 authors = ["Kohei Suzuki <eagletmt@gmail.com>"]
+
+[dependencies]
+encoding = "0.2"
+
+[[bin]]
+name = "skkclient"
+path = "src/skkclient/main.rs"
